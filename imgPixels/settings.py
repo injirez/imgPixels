@@ -79,10 +79,25 @@ WSGI_APPLICATION = 'imgPixels.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+# FOR HEROKU DB
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'd94nuu74auaus',
+        'HOST': 'ec2-54-195-195-81.eu-west-1.compute.amazonaws.com',
+        'USER': 'cadrezterpquqe',
+        'PASSWORD': 'a3618cae16f198d2ad3b3e4ef5c054462f0f3099b20d00ebccd5357952c3a4c3',
+        'PORT': '5432',
+        'OPTIONS': {
+            'client_encoding': 'win1251'
+        }
     }
 }
 
