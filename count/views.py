@@ -18,15 +18,15 @@ def imageUploadView(request):
             imgObj = form.instance
 
             # FOR LOCAL
-            # imageUrl = imgObj.image.url.replace('media', '').replace('/', '\\')
-            # imageUrl = settings.MEDIA_ROOT.replace('/', '') + imageUrl
-            # img = cv2.imread(imageUrl, cv2.IMREAD_GRAYSCALE)
+            imageUrl = imgObj.image.url.replace('media', '').replace('/', '\\')
+            imageUrl = settings.MEDIA_ROOT.replace('/', '') + imageUrl
+            img = cv2.imread(imageUrl, cv2.IMREAD_GRAYSCALE)
 
             # FOR HEROKU
-            imageUrlHeroku = 'https://imgpixels.herokuapp.com' + imgObj.image.url
-            resp = urllib.request.urlopen(imageUrlHeroku)
-            image = np.asarray(bytearray(resp.read()), dtype="uint8")
-            img = cv2.imdecode(image, cv2.IMREAD_COLOR)
+            # imageUrlHeroku = 'https://imgpixels.herokuapp.com' + imgObj.image.url
+            # resp = urllib.request.urlopen(imageUrlHeroku)
+            # image = np.asarray(bytearray(resp.read()), dtype="uint8")
+            # img = cv2.imdecode(image, cv2.IMREAD_COLOR)
 
             numWhite = np.sum(img == 255)
             numBlack = np.sum(img == 0)
