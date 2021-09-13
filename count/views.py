@@ -6,6 +6,7 @@ from django.conf import settings
 
 import cv2
 import numpy as np
+import urllib.request
 
 
 def imageUploadView(request):
@@ -19,7 +20,11 @@ def imageUploadView(request):
             imageUrl = imgObj.image.url.replace('/', '\\')
             # imageUrl = settings.MEDIA_ROOT.replace('/', '') + imageUrl
             imageUrlHeroku = 'https://imgpixels.herokuapp.com' + imgObj.image.url
-            img = cv2.imread(imageUrlHeroku, cv2.IMREAD_GRAYSCALE)
+            # imageUrlHeroku = 'https://imgpixels.herokuapp.com/media/images/andechs2_i7lw1Qa.jpg'
+            resp = urllib.request.urlopen(imageUrlHeroku)
+            image = np.asarray(bytearray(resp.read()), dtype="uint8")
+            img = cv2.imdecode(image, cv2.IMREAD_COLOR)
+            # img = cv2.imread(imageUrlHeroku, cv2.IMREAD_GRAYSCALE)
             numWhite = np.sum(img == 255)
             numBlack = np.sum(img == 0)
             if numWhite > numBlack:
