@@ -28,7 +28,7 @@ def imageUploadView(request):
                 res = 'Number of black pixels is more then white pixels ({})'.format(numBlack)
             elif numBlack == numWhite:
                 res = 'Number of pixels is same'
-            return render(request, 'index.html', {'form': form, 'img_obj': imgObj, 'numWhite': numWhite, 'numBlack': numBlack, 'res': res})
+            return render(request, 'index.html', {'form': form, 'img_obj': imgObj, 'numWhite': numWhite, 'numBlack': numBlack, 'res': res, 'imageUrl': imageUrl})
     else:
         form = ImageForm()
     return render(request, 'index.html', {'form': form})
