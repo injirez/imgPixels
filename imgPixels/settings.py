@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+import os.path
 import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -163,3 +164,5 @@ MEDIA_URL = '/media/'
 
 # Путь хранения картинок
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+ROOT = os.path.dirname(__file__).replace('\\','/')

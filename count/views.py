@@ -16,8 +16,9 @@ def imageUploadView(request):
             form.save()
             # Get the current instance object to display in the template
             imgObj = form.instance
-            imageUrl = imgObj.image.url.replace('media', '').replace('/', '\\').replace('\\\\', '\\')
-            imageUrl = settings.MEDIA_ROOT.replace('/', '') + imageUrl
+            imageUrl = imgObj.image.url.replace('/', '\\')
+            # imageUrl = settings.MEDIA_ROOT.replace('/', '') + imageUrl
+            imageUrl = settings.ROOT[:-10].replace('/', '\\') + imageUrl
             img = cv2.imread(imageUrl, cv2.IMREAD_GRAYSCALE)
             numWhite = np.sum(img == 255)
             numBlack = np.sum(img == 0)
