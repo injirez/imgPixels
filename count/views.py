@@ -18,8 +18,8 @@ def imageUploadView(request):
             imgObj = form.instance
             imageUrl = imgObj.image.url.replace('/', '\\')
             # imageUrl = settings.MEDIA_ROOT.replace('/', '') + imageUrl
-            imageUrl = settings.ROOT[:-10].replace('/', '\\') + imageUrl
-            img = cv2.imread(imageUrl, cv2.IMREAD_GRAYSCALE)
+            imageUrlHeroku = 'https://imgpixels.herokuapp.com' + imgObj.image.url
+            img = cv2.imread(imageUrlHeroku, cv2.IMREAD_GRAYSCALE)
             numWhite = np.sum(img == 255)
             numBlack = np.sum(img == 0)
             if numWhite > numBlack:
@@ -28,7 +28,7 @@ def imageUploadView(request):
                 res = 'Number of black pixels is more then white pixels ({})'.format(numBlack)
             elif numBlack == numWhite:
                 res = 'Number of pixels is same'
-            return render(request, 'index.html', {'form': form, 'img_obj': imgObj, 'numWhite': numWhite, 'numBlack': numBlack, 'res': res, 'imageUrl': imageUrl})
+            return render(request, 'index.html', {'form': form, 'img_obj': imgObj, 'numWhite': numWhite, 'numBlack': numBlack, 'res': res, 'imageUrl': imageUrlHeroku})
     else:
         form = ImageForm()
     return render(request, 'index.html', {'form': form})
