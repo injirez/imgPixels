@@ -10,21 +10,24 @@ import urllib.request
 
 
 def imageUploadView(request):
-    """Process images uploaded by users"""
     if request.method == 'POST':
         form = ImageForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             # Get the current instance object to display in the template
             imgObj = form.instance
-            imageUrl = imgObj.image.url.replace('/', '\\')
+
+            # FOR LOCAL
+            # imageUrl = imgObj.image.url.replace('media', '').replace('/', '\\')
             # imageUrl = settings.MEDIA_ROOT.replace('/', '') + imageUrl
+            # img = cv2.imread(imageUrl, cv2.IMREAD_GRAYSCALE)
+
+            # FOR HEROKU
             imageUrlHeroku = 'https://imgpixels.herokuapp.com' + imgObj.image.url
-            # imageUrlHeroku = 'https://imgpixels.herokuapp.com/media/images/andechs2_i7lw1Qa.jpg'
             resp = urllib.request.urlopen(imageUrlHeroku)
             image = np.asarray(bytearray(resp.read()), dtype="uint8")
             img = cv2.imdecode(image, cv2.IMREAD_COLOR)
-            # img = cv2.imread(imageUrlHeroku, cv2.IMREAD_GRAYSCALE)
+
             numWhite = np.sum(img == 255)
             numBlack = np.sum(img == 0)
             if numWhite > numBlack:
@@ -33,7 +36,7 @@ def imageUploadView(request):
                 res = 'Number of black pixels is more then white pixels ({})'.format(numBlack)
             elif numBlack == numWhite:
                 res = 'Number of pixels is same'
-            return render(request, 'index.html', {'form': form, 'img_obj': imgObj, 'numWhite': numWhite, 'numBlack': numBlack, 'res': res, 'imageUrl': imageUrlHeroku})
+            return render(request, 'index.html', {'form': form, 'img_obj': imgObj, 'numWhite': numWhite, 'numBlack': numBlack, 'res': res})
     else:
         form = ImageForm()
     return render(request, 'index.html', {'form': form})
